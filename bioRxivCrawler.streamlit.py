@@ -6,18 +6,13 @@ import time
 import random
 import streamlit as st
 
-# Set up the Streamlit web interface
 st.title("bioRxiv Deposited Data ID Crawler👽")
 st.write("Search and extract papers along with their database IDs from bioRxiv.")
 
-# User input for keywords
 query_input = st.text_input("Enter search keywords (separate by commas):", "")
+usage_option = st.radio("Do you want to use each query individually (OR) or as a combined (AND) query?",
+                        ("OR", "AND"))
 
-# User selection for search method
-usage_option = st.radio("Do you want to use each query individually or as a combined query?",
-                        ("Individual Query", "Combined Query"))
-
-# Process user input
 if st.button("Search Papers"):
     if "," not in query_input:
         st.error("Please separate keywords with commas (e.g., RNA-seq, single-cell).")
@@ -35,8 +30,7 @@ if st.button("Search Papers"):
         HEADERS = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
         }
-
-        # Function to get all papers for a given query
+      
         def get_paper_links(query):
             papers = []
             page_number = 0
@@ -63,7 +57,6 @@ if st.button("Search Papers"):
                 time.sleep(random.uniform(1,2))
             return papers
 
-        # Extract Deposited Database ID from Full-Text HTML
         def extract_deposited_id(paper_url):
             response = requests.get(paper_url, headers=HEADERS)
             if response.status_code != 200:
@@ -73,7 +66,6 @@ if st.button("Search Papers"):
             match = re.findall(r"(GSE\d+|PRJNA\d+|ERP\d+|SRP\d+|EGAD\d+|S-BSST\d+)", text)
             return match if match else ["Not Found"]
 
-        # Run the script
         all_results = []
         for query in queries:
             papers = get_paper_links(query)
@@ -83,15 +75,12 @@ if st.button("Search Papers"):
                 all_results.append(paper)
                 time.sleep(random.uniform(1,2))
 
-        # Convert results to a DataFrame
         df = pd.DataFrame(all_results)
 
-        # Display results
         if not df.empty:
             st.write(f"### Results for '{query_input}':")
             st.dataframe(df)
 
-            # Download as CSV
             csv = df.to_csv(index=False).encode()
             st.download_button("📥 Download CSV", data=csv, file_name=f"{search_type}.csv", mime="text/csv")
 
