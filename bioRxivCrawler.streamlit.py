@@ -5,6 +5,11 @@ import pandas as pd
 import time
 import random
 import streamlit as st
+import streamlit.components.v1 as components
+meta_tag = """
+<meta name="google-site-verification" content="google171a5c8bed9ff100.html" />
+"""
+components.html(meta_tag, height=0)
 
 st.title("bioRxivCrawler👽")
 st.write("Search and extract papers along with their database IDs from bioRxiv.")
