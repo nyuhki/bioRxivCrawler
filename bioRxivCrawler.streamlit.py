@@ -6,10 +6,6 @@ import time
 import random
 import streamlit as st
 import streamlit.components.v1 as components
-meta_tag = """
-<meta name="google-site-verification" content="9c14p5UDyl8oHWx8M9ED1SWe3qB6LtQnqY2a6VfdAJE" />
-"""
-components.html(meta_tag, height=0)
 
 st.title("bioRxivCrawler👽")
 st.write("Search and extract papers along with their database IDs from bioRxiv.")
