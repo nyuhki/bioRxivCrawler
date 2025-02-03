@@ -6,7 +6,7 @@ import time
 import random
 import streamlit as st
 
-st.title("bioRxiv Deposited Data ID Crawler👽")
+st.title("bioRxivCrawler👽")
 st.write("Search and extract papers along with their database IDs from bioRxiv.")
 
 query_input = st.text_input("Enter search keywords (separate by commas):", "")
